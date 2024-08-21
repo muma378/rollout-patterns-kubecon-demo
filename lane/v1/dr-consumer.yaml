@@ -1,0 +1,14 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: dubbo-consumer
+spec:
+  host: dubbo3-consumer
+  subsets:
+    - labels:
+        version: v1
+      name: v1
+  trafficPolicy:
+    connectionPool:
+      http:
+        maxRetries: 3

@@ -1,0 +1,60 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: consumer
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  gateways:
+    - dubbo
+  hosts:
+    - '*'
+  http:
+    - headers:
+        request:
+          add:
+            lane: test-v1
+      match:
+        - queryParams:
+            name:
+              exact: test-v1
+      route:
+        - destination:
+            host: dubbo3-consumer
+            port:
+              number: 9090
+            subset: v1
+    - headers:
+        request:
+          add:
+            lane: test-v2
+      match:
+        - queryParams:
+            name:
+              exact: test-v2
+      route:
+        - destination:
+            host: dubbo3-consumer
+            port:
+              number: 9090
+            subset: v2
+    - headers:
+        request:
+          add:
+            lane: test-v3
+      match:
+        - queryParams:
+            name:
+              exact: test-v3
+      route:
+        - destination:
+            host: dubbo3-consumer
+            port:
+              number: 9090
+            subset: v3
+    - route:
+        - destination:
+            host: dubbo3-consumer
+            port:
+              number: 9090
+            subset: v1

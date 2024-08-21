@@ -1,0 +1,17 @@
+apiVersion: extensions.istio.io/v1alpha1
+kind: WasmPlugin
+metadata:
+  name: dubbo3-sample-traffic-lane
+  labels:
+    app.kubernetes.io/part-of: dubbo3-sample
+spec:
+  imagePullPolicy: Always
+  phase: STATS
+  pluginConfig:
+    cache_size: 1024
+    lane_header: bu
+    type: W3C
+  selector:
+    matchLabels:
+      app.kubernetes.io/part-of: dubbo3-sample
+  url: oci://release.daocloud.io/mspider/mspider-traffic-lane:v0.23.0

@@ -1,0 +1,27 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: dubbo3-consumer
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 9090
+      targetPort: 8080
+  selector:
+    app: dubbo3-consumer
+  type: ClusterIP
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dubbo3-consumer-canary
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 9090
+      targetPort: 8080
+  selector:
+    app: dubbo3-consumer
+  type: ClusterIP

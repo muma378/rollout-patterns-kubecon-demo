@@ -1,0 +1,38 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: provider
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  gateways:
+    - mesh
+  hosts:
+    - dubbo3-provider
+  http:
+    - match:
+        - headers:
+            lane:
+              exact: test-v1
+      route:
+        - destination:
+            host: dubbo3-provider
+            port:
+              number: 20880
+            subset: v1
+    - match:
+        - headers:
+            lane:
+              exact: test-v2
+      route:
+        - destination:
+            host: dubbo3-provider
+            port:
+              number: 20880
+            subset: v2
+    - route:
+        - destination:
+            host: dubbo3-provider
+            port:
+              number: 20880
+            subset: v3

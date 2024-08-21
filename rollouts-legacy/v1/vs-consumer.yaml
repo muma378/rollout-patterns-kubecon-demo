@@ -1,0 +1,30 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: consumer
+spec:
+  gateways:
+    - dubbo
+  hosts:
+    - "*"
+  http:
+    - name: test-v1
+      route:
+        - destination:
+            host: dubbo3-consumer
+            port:
+              number: 9090
+          weight: 100
+          headers:
+            request:
+                add:
+                  lane: test-v1
+        - destination:
+            host: dubbo3-consumer-canary
+            port:
+              number: 9090
+          weight: 0
+          headers:
+            request:
+              add:
+                lane: test-v2

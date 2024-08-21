@@ -1,0 +1,26 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: dubbo3-provider-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dubbo3-provider
+  template:
+    metadata:
+      labels:
+        app: dubbo3-provider
+        sidecar.istio.io/inject: 'true'
+        version: v1
+    spec:
+      containers:
+        - name: container-1
+          image: release-ci.daocloud.io/mspider/spring-dubbo3-provider:v0.2
+          resources:
+            limits:
+              cpu: 250m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 512Mi

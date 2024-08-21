@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: consumer
+spec:
+  gateways:
+    - dubbo
+  hosts:
+    - '*'
+  http:
+    - route:
+        - destination:
+            host: dubbo3-consumer
+            port:
+              number: 9090
+            subset: v1

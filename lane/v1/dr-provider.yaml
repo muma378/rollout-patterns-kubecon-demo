@@ -1,0 +1,14 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: dubbo-provider
+spec:
+  host: dubbo3-provider
+  subsets:
+    - labels:
+        version: v1
+      name: v1
+  trafficPolicy:
+    connectionPool:
+      http:
+        http2MaxRequests: 10000

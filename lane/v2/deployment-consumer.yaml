@@ -1,0 +1,95 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: dubbo3-consumer-v1
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dubbo3-consumer
+  template:
+    metadata:
+      labels:
+        app: dubbo3-consumer
+        sidecar.istio.io/inject: 'true'
+        version: v1
+    spec:
+      containers:
+        - name: container-1
+          image: release-ci.daocloud.io/mspider/spring-dubbo3-consumer:v0.2
+          env:
+            - name: PROVIDER_URL
+              value: tri://dubbo3-provider:20880
+          resources:
+            limits:
+              cpu: 250m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 512Mi
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: dubbo3-consumer-v2
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dubbo3-consumer
+  template:
+    metadata:
+      labels:
+        app: dubbo3-consumer
+        sidecar.istio.io/inject: 'true'
+        version: v2
+    spec:
+      containers:
+        - name: container-1
+          image: release-ci.daocloud.io/mspider/spring-dubbo3-consumer:v0.2
+          env:
+            - name: PROVIDER_URL
+              value: tri://dubbo3-provider:20880
+          resources:
+            limits:
+              cpu: 250m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 512Mi
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: dubbo3-consumer-v3
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dubbo3-consumer
+  template:
+    metadata:
+      labels:
+        app: dubbo3-consumer
+        sidecar.istio.io/inject: 'true'
+        version: v3
+    spec:
+      containers:
+        - name: container-1
+          image: release-ci.daocloud.io/mspider/spring-dubbo3-consumer:v0.2
+          env:
+            - name: PROVIDER_URL
+              value: tri://dubbo3-provider:20880
+          resources:
+            limits:
+              cpu: 250m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 512Mi

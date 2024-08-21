@@ -1,0 +1,46 @@
+kind: Rollout
+apiVersion: argoproj.io/v1alpha1
+metadata:
+  name: dubbo3-provider
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dubbo3-provider
+  template:
+    metadata:
+      labels:
+        app: dubbo3-provider
+        sidecar.istio.io/inject: "true"
+        version: v1
+    spec:
+      containers:
+        - name: container-1
+          image: release-ci.daocloud.io/mspider/spring-dubbo3-provider:v0.2
+          readinessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            tcpSocket:
+              port: 20880
+  strategy:
+    canary:
+      canaryService: dubbo3-provider-canary
+      stableService: dubbo3-provider
+      trafficRouting:
+        managedRoutes:
+          - name: test-v2
+        istio:
+          virtualService:
+            name: provider
+            routes:
+              - test-v1
+      steps:
+        - setCanaryScale:
+            weight: 100
+        - setHeaderRoute:
+            name: test-v2
+            match:
+            - headerName: lane
+              headerValue:
+                exact: test-v2
+        - pause: {}

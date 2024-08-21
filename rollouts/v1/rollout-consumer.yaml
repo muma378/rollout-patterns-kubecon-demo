@@ -1,0 +1,49 @@
+kind: Rollout
+apiVersion: argoproj.io/v1alpha1
+metadata:
+  name: dubbo3-consumer
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dubbo3-consumer
+  template:
+    metadata:
+      labels:
+        app: dubbo3-consumer
+        sidecar.istio.io/inject: "true"
+        version: v2
+    spec:
+      containers:
+        - name: container-1
+          image: release-ci.daocloud.io/mspider/spring-dubbo3-consumer:v0.2
+          env:
+            - name: PROVIDER_URL
+              value: tri://dubbo3-provider:20880
+          readinessProbe:
+            httpGet:
+              path: /hello
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+  strategy:
+    canary:
+      trafficRouting:
+        istio:
+          virtualService:
+            name: consumer
+            routes:
+              - test-v1
+          destinationRule:
+            name: dubbo-consumer
+            stableSubsetName: stable
+            canarySubsetName: canary
+      steps:
+        - setWeight: 5
+        - pause:
+            duration: 10m
+        - setWeight: 50
+        - pause:
+            duration: 10m

@@ -1,0 +1,19 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: dubbo-boot-sample
+  namespace: istio-system
+spec:
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            requestPrincipals:
+              - '*'
+    - to:
+        - operation:
+            paths:
+              - /hello*
+  selector:
+    matchLabels:
+      istio: ingressgateway
