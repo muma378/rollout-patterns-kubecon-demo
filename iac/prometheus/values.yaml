@@ -1,0 +1,15 @@
+prometheus:
+  alertmanager:
+    enabled: false
+  nodeExporter:
+    enabled: false
+  pushgateway:
+    enabled: false
+  kubeStateMetrics:
+    enabled: false
+  configmapReload:
+    prometheus:
+      enabled: false
+grafana:
+  image:
+    registry: docker.io    

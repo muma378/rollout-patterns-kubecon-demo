@@ -1,0 +1,29 @@
+global:
+  istioNamespace: istio-system
+istiod:
+  pilot:
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        cpu: 500m
+        memory: 2048Mi
+gateway:
+  name: istio-ingressgateway
+  service:
+    # Type of service. Set to "None" to disable the service entirely
+    type: LoadBalancer
+    ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 9090
+      nodePort: 30080
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 8443
+      nodePort: 30443
+  securityContext: 
+    runAsUser: 0

@@ -1,0 +1,21 @@
+argo-rollouts:
+  argo-rollouts:
+    controller:
+      resources:
+        limits:
+          cpu: 100m
+          memory: 128Mi
+        requests:
+          cpu: 16m
+          memory: 128Mi
+    dashboard:
+      enabled: true
+      resources:
+        limits:
+          cpu: 100m
+          memory: 128Mi
+        requests:
+          cpu: 10m
+          memory: 16Mi
+      service:
+        type: LoadBalancer
