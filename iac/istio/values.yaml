@@ -19,11 +19,7 @@ gateway:
       port: 80
       protocol: TCP
       targetPort: 9090
-      nodePort: 30080
     - name: https
       port: 443
       protocol: TCP
       targetPort: 8443
-      nodePort: 30443
-  securityContext: 
-    runAsUser: 0
