@@ -12,7 +12,7 @@ spec:
       labels:
         app: dubbo3-consumer
         sidecar.istio.io/inject: "true"
-        version: v1
+        version: v2
     spec:
       containers:
         - name: container-1
