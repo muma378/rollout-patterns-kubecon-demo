@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: container-1
-          image: release-ci.daocloud.io/mspider/spring-dubbo3-consumer:v0.2
+          image: ghcr.io/muma378/spring-dubbo3-consumer:v0.1
           env:
             - name: PROVIDER_URL
               value: tri://dubbo3-provider:20880
